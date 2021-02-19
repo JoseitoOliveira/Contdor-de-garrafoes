@@ -1,4 +1,4 @@
-# Contdor de garrafoes
+# Contdor de garrafões
  Contador de garrafoes e controlador de esteira industrial.
 
 ## Requisitos:
