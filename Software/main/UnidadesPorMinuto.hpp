@@ -33,7 +33,6 @@ void UnidadePorMinuto::adicionar(float elemento) {
 void UnidadePorMinuto::tick() {
   unsigned long now = millis();
   float period = (float)now - last_time;
-  Serial.println(period);
   adicionar(period);
   last_time = now;
 }

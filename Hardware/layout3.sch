@@ -74,8 +74,6 @@ Pino_4
 Wire Wire Line
 	3850 4100 3950 4100
 Wire Wire Line
-	3850 4200 3950 4200
-Wire Wire Line
 	3850 4300 3950 4300
 Wire Wire Line
 	3850 4400 3950 4400
@@ -142,8 +140,6 @@ Wire Wire Line
 	6075 1750 6050 1750
 Wire Wire Line
 	6050 1750 6050 1825
-Text GLabel 3950 2200 2    50   Output ~ 0
-Pino_8
 Wire Wire Line
 	3850 2200 3950 2200
 $Comp
@@ -246,24 +242,12 @@ Wire Wire Line
 	3950 2500 3850 2500
 Wire Wire Line
 	3850 2600 3950 2600
-Text GLabel 3950 2300 2    50   Output ~ 0
-Pino_9
-Text GLabel 3950 2400 2    50   Output ~ 0
-Pino_10
 Text GLabel 3950 2500 2    50   Output ~ 0
 Pino_11
 Text GLabel 3950 2600 2    50   Output ~ 0
 Pino_12
-Text GLabel 3950 4500 2    50   Output ~ 0
-Pino_6
-Text GLabel 3950 4600 2    50   Output ~ 0
-Pino_7
 Text GLabel 3975 3500 2    50   Output ~ 0
 Pino_18_A4
-Text GLabel 3950 4300 2    50   Output ~ 0
-Pino_4
-Text GLabel 3950 4400 2    50   Output ~ 0
-Pino_5
 $Comp
 L Regulator_Linear:LM7805_TO220 U2
 U 1 1 5FF0E292
@@ -332,8 +316,7 @@ Text GLabel 3950 4100 2    50   Output ~ 0
 Pino_2_int
 Text GLabel 7925 3625 0    50   Input ~ 0
 Pino_2_int
-NoConn ~ 3850 3900
-NoConn ~ 3850 4000
+NoConn ~ 3950 2300
 Wire Wire Line
 	3975 3400 3850 3400
 Wire Wire Line
@@ -381,8 +364,6 @@ Wire Wire Line
 Connection ~ 5075 1450
 Wire Wire Line
 	5075 1450 5375 1450
-Text GLabel 3950 4200 2    50   Output ~ 0
-Pino_3
 Text GLabel 5925 3375 0    50   Input ~ 0
 Pino_3
 Wire Wire Line
@@ -397,7 +378,6 @@ Wire Wire Line
 	3975 3600 3850 3600
 Wire Wire Line
 	3850 3300 3975 3300
-NoConn ~ 3850 3100
 NoConn ~ 3850 3200
 Text GLabel 3350 1750 1    50   Input ~ 0
 vcc
@@ -490,14 +470,6 @@ Text GLabel 5500 4850 0    50   Input ~ 0
 Pino_12
 Text GLabel 5500 5050 0    50   Input ~ 0
 Pino_11
-Text GLabel 5500 5750 0    50   Input ~ 0
-Pino_18_A4
-Text GLabel 5500 5550 0    50   Input ~ 0
-Pino_16_A2
-Text GLabel 5500 5650 0    50   Input ~ 0
-Pino_17_A3
-Text GLabel 5500 5850 0    50   Input ~ 0
-Pino_19_A5
 Text GLabel 6000 4550 1    50   Input ~ 0
 vcc
 Wire Wire Line
@@ -540,8 +512,6 @@ F 3 "" H 6500 5550 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6400 5650 6500 5650
-Text GLabel 6500 5650 2    50   Input ~ 0
-vcc
 Wire Wire Line
 	6000 6050 6000 6100
 $Comp
@@ -568,4 +538,39 @@ F 3 "http://www.raystar-optronics.com/down.php?ProID=18" H 6100 5250 50  0001 C 
 	1    6000 5350
 	1    0    0    -1  
 $EndComp
+Text GLabel 5500 5850 0    50   Input ~ 0
+Pino_19_A5
+Text GLabel 5500 5550 0    50   Input ~ 0
+Pino_16_A2
+Text GLabel 5500 5750 0    50   Input ~ 0
+Pino_18_A4
+Text GLabel 5500 5650 0    50   Input ~ 0
+Pino_17_A3
+Text GLabel 3950 4400 2    50   Output ~ 0
+Pino_10
+Text GLabel 3950 4500 2    50   Output ~ 0
+Pino_9
+Text GLabel 3950 4300 2    50   Output ~ 0
+Pino_6
+Text GLabel 3950 3900 2    50   Output ~ 0
+Pino_3
+Text GLabel 3950 4000 2    50   Output ~ 0
+Pino_4
+Text GLabel 3950 2200 2    50   Output ~ 0
+Pino_7
+Wire Wire Line
+	3850 4200 3950 4200
+NoConn ~ 3850 3100
+Text GLabel 3950 4200 2    50   Output ~ 0
+Pino_5
+Text GLabel 3950 4600 2    50   Output ~ 0
+Pino_8
+Wire Wire Line
+	3850 3900 3950 3900
+Wire Wire Line
+	3850 4000 3950 4000
+Text GLabel 6500 5650 2    50   Input ~ 0
+LCD_A
+Text GLabel 3950 2400 2    50   Output ~ 0
+LCD_A
 $EndSCHEMATC

@@ -14,16 +14,16 @@ void begin() {
 void inicio() {
   display.clear();
   display.setCursor(4, 0);
-  display.print("Contagem");
+  display.print(F("Contagem"));
   display.setCursor(0, 1);
-  display.print("A:Lmtd   B:Livre");
+  display.print(F("A:Lmtd   B:Livre"));
 }
 
 void digitando() {
   display.setCursor(0, 0);
-  display.print("Qtd:       A:Acc");
+  display.print(F("Qtd:       A:Acc"));
   display.setCursor(0, 1);
-  display.print("C:Cancelar D:Del");
+  display.print(F("C:Cancelar D:Del"));
 }
 
 void contagem_limitada(unsigned int count, unsigned int max_cout, float upm) {
@@ -44,7 +44,7 @@ void contagem_livre(unsigned int count, float upm) {
   display.setCursor(0, 0);
   display.print("Quantidade:" + s_count);
   display.setCursor(0, 1);
-  display.print(s_upm + " upm C:Parar ");
+  display.print(s_upm + F(" upm C:Parar "));
 }
 
 void dialog(String st1, String st2) {

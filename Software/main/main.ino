@@ -16,7 +16,8 @@
 enum Estados { inicio,
                contagem_limitada,
                contagem_livre,
-               digitando } estado;
+               digitando
+             } estado;
 
 unsigned int max_count;
 volatile unsigned int count = 0;
@@ -25,22 +26,19 @@ volatile bool sensor_changed = false;
 Numero num(max_len);
 UnidadePorMinuto upm(10);
 
-TaskHandle_t task_State_Handle;
-TaskHandle_t task_Sensor_Handle;
-TaskHandle_t task_Memory_handle;
-
 // <Teclado>
 
 char matrizteclado[4][4] = {{'1', '2', '3', 'A'},
-                            {'4', '5', '6', 'B'},
-                            {'7', '8', '9', 'C'},
-                            {'*', '0', '#', 'D'}};
+  {'4', '5', '6', 'B'},
+  {'7', '8', '9', 'C'},
+  {'*', '0', '#', 'D'}
+};
 
-byte pinoslinhas[] = {10, 9, 8, 7};  // pinos utilizados nas linhas
-byte pinoscolunas[] = {6, 5, 4, 3};  // pinos utilizados nas colunas
+byte pinoslinhas[] = {3, 4, 5, 6};  // pinos utilizados nas linhas
+byte pinoscolunas[] = {7, 8, 9, 10};  // pinos utilizados nas colunas
 
 Keypad teclado =
-    Keypad(makeKeymap(matrizteclado), pinoslinhas, pinoscolunas, 4, 4);
+  Keypad(makeKeymap(matrizteclado), pinoslinhas, pinoscolunas, 4, 4);
 //</Teclado>
 
 // Protótipos de funções
@@ -89,23 +87,28 @@ char dialog(String st1, String st2, char opts[]) {
   }
 }
 
-void task_sensor(void *pvParameters) {
-  (void)pvParameters;
+void task_tick_sensor(void *_sensor) {
 
-  Bounce sensor = Bounce();
-  sensor.attach(sensor_pin, INPUT);
-  sensor.interval(25);
+  Bounce * sensor = (Bounce *) _sensor;
+  while (true) {
+    sensor->update();
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+  }
+}
+
+void task_sensor(void *_sensor) {
+
+  Bounce * sensor = (Bounce *) _sensor;
 
   while (true) {
     if (estado == contagem_limitada or estado == contagem_livre) {
-      sensor.update();
-      if (sensor.changed() and sensor.read() == HIGH) {
+      if (sensor->changed() and sensor->read() == HIGH) {
         count++;
         upm.tick();
         sensor_changed = true;
       }
     }
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+    vTaskDelay(30 / portTICK_PERIOD_MS);
   }
 }
 
@@ -113,7 +116,6 @@ void task_state(void *pvParameters) {
   (void)pvParameters;
 
   lcd::begin();
-  Serial.begin(9600);
 
   set_inicio();
 
@@ -134,33 +136,44 @@ void task_state(void *pvParameters) {
         func_digitando(tecla);
         break;
     }
-    vTaskDelay(150 / portTICK_PERIOD_MS);
-  }
-}
-
-void task_memory(void *pvParameters) {
-  (void)pvParameters;
-  while (true) {
-    unsigned short int this_memory = uxTaskGetStackHighWaterMark(task_Memory_handle);
-    unsigned short int state_memory = uxTaskGetStackHighWaterMark(task_State_Handle);
-    unsigned short int sensor_memory = uxTaskGetStackHighWaterMark(task_Sensor_Handle);
-    Serial.println(
-        "This: " + String(this_memory) +
-        " State: " + String(state_memory) +
-        " Sensor: " + String(sensor_memory));
-
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    vTaskDelay(100 / portTICK_PERIOD_MS);
   }
 }
 
 void setup() {
-  Serial.begin(9600);
-
   pinMode(reler_pin, OUTPUT);
 
-  xTaskCreate(task_memory, "Memory", 110, NULL, 0, &task_Memory_handle);
-  xTaskCreate(task_state, "State", 166, NULL, 5, &task_State_Handle);
-  xTaskCreate(task_sensor, "Sensor", 110, NULL, 10, &task_Sensor_Handle);
+  Bounce sensor = Bounce();
+  sensor.attach(sensor_pin, INPUT);
+  sensor.interval(10);
+
+  TaskHandle_t task_State_Handle;
+  TaskHandle_t task_Sensor_Handle;
+  TaskHandle_t task_Tick_Sensor_Handle;
+
+  xTaskCreate(
+    task_state,
+    "State", 255,
+    (void *)&sensor,
+    5,
+    &task_State_Handle
+  );
+
+  xTaskCreate(
+    task_tick_sensor,
+    "Tick Sensor", 50,
+    (void *)&sensor,
+    10,
+    &task_Tick_Sensor_Handle
+  );
+
+  xTaskCreate(
+    task_sensor,
+    "Sensor", 255,
+    NULL,
+    15,
+    &task_Sensor_Handle
+  );
 }
 
 void loop() {}
@@ -249,9 +262,9 @@ void func_contagem_limitada(char tecla) {
   if (count >= max_count) {
     digitalWrite(reler_pin, LOW);
     char nova_tecla = dialog(
-        "Fim da contagem!",
-        " " + String(count) + "  A:Inicio",
-        "A");
+                        "Fim da contagem!",
+                        " " + String(count) + "  A:Inicio",
+                        "A");
     if (nova_tecla == 'A')
       set_inicio();
   }
