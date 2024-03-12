@@ -11,6 +11,7 @@
 ### 3º layout
 ![alt text](Images/Placa-front.PNG "Title")
 ![alt text](Images/Placa-back.PNG "Title")
+![alt text](Images/pcbV3.jpg "Title")
 
 ### 2º layout
 ![alt text](Images/2-layout-back.jpg "Title")
